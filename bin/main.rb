@@ -1,3 +1,4 @@
+#!/usr/bin/env ruby
 puts 'Wellcome to TicTacToe'
 puts 'Player1 Name'
 player1 = gets.strip
