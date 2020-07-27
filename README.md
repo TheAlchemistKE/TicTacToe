@@ -1,6 +1,6 @@
 ![](https://img.shields.io/badge/Microverse-blueviolet)
 
-# Project Name
+# TicTacToe
 
 > One paragraph statement about the project.
 
@@ -10,9 +10,7 @@ Additional description about the project and its features.
 
 ## Built With
 
-- Major languages,
-- frameworks,
-- technologies used
+-Ruby
 
 ## Live Demo
 
