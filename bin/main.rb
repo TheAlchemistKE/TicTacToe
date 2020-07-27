@@ -10,16 +10,6 @@ system('clear')
 
 board = (1..9).to_a
 
-puts " #{board[0]} | #{board[1]} | #{board[2]} "
-puts '-----------'
-puts " #{board[3]} | #{board[4]} | #{board[5]} "
-puts '-----------'
-puts " #{board[6]} | #{board[7]} | #{board[8]} "
-
-puts "#{player1} Pick a number"
-
-player1_position = gets.strip.to_i
-
 def map_to_index(position)
   position - 1
 end
@@ -29,26 +19,33 @@ def update_board(index, board, symbol)
   board
 end
 
-idx = map_to_index(player1_position)
-board = update_board(idx, board, 'x')
+count = 0
 
-system('clear')
+while count <= 9
+  puts " #{board[0]} | #{board[1]} | #{board[2]} "
+  puts '-----------'
+  puts " #{board[3]} | #{board[4]} | #{board[5]} "
+  puts '-----------'
+  puts " #{board[6]} | #{board[7]} | #{board[8]} "
 
-puts " #{board[0]} | #{board[1]} | #{board[2]} "
-puts '-----------'
-puts " #{board[3]} | #{board[4]} | #{board[5]} "
-puts '-----------'
-puts " #{board[6]} | #{board[7]} | #{board[8]} "
+  puts "#{player1} Pick a number"
+  player1_position = gets.strip.to_i
 
-puts "#{player2} Pick a number"
+  idx = map_to_index(player1_position)
+  board = update_board(idx, board, 'x')
 
-player2_position = gets.strip.to_i
+  system('clear')
 
-idx = map_to_index(player2_position)
-board = update_board(idx, board, 'O')
+  puts " #{board[0]} | #{board[1]} | #{board[2]} "
+  puts '-----------'
+  puts " #{board[3]} | #{board[4]} | #{board[5]} "
+  puts '-----------'
+  puts " #{board[6]} | #{board[7]} | #{board[8]} "
 
-puts " #{board[0]} | #{board[1]} | #{board[2]} "
-puts '-----------'
-puts " #{board[3]} | #{board[4]} | #{board[5]} "
-puts '-----------'
-puts " #{board[6]} | #{board[7]} | #{board[8]} "
+  puts "#{player2} Pick a number"
+
+  player2_position = gets.strip.to_i
+
+  idx = map_to_index(player2_position)
+  board = update_board(idx, board, 'O')
+end
