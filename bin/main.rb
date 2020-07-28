@@ -18,11 +18,9 @@ system('clear')
 
 
 
-while board.board_filled?
-  puts board.display_board
-  puts "#{board.current_player.name} is your turn to play."
+puts board.display_board
+puts "#{board.current_player.name} is your turn to play."
   
-end
 
 
 # system('clear')

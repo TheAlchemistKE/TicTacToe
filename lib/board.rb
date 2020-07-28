@@ -22,7 +22,7 @@ class GameBoard < GameEngine
   end
 
   def board_filled?
-    false until @winner || @board.none? {|el| el.is_number?}
+    false until @winner || @board.none? {|el| el.is_a? (Integer)}
     true
   end
 
