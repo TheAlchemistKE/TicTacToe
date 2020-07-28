@@ -10,31 +10,68 @@ player1_name = gets.strip
 puts 'Player2 Name'
 player2_name = gets.strip
 
-player1 = Player.new(player1_name, 'X')
-player2 = Player.new(player2_name, 'O')
-board = GameBoard.new(player1, player2)
+def map_to_index(position)
+  position - 1
+end
 
-system('clear')
+def update_board(index, board, symbol = '')
+  board[index] = symbol
+  board
+end
 
+def position_taken?(board, idx)
+  if board[idx] == 'X' || board[idx] == 'O'
+    true
+  else
+    false
+  end
+end
 
+def valid_move?(board, idx)
+  if idx.between?(0, 8) && !position_taken?(board, idx)
+    true
+  else
+    false
+  end
+end
 
-puts board.display_board
-puts "#{board.current_player.name} is your turn to play."
-  
+p1_moves = []
+p2_moves = []
 
+winner = nil
+# count = 1
+current_player = player1
 
-# system('clear')
-# board = GameBoard.new
-# puts board.display_board
+while winner.nil?
 
-# puts "#{player1} please make your move:"
-# player_1_move = gets.strip.to_i
+  puts " #{board[0]} | #{board[1]} | #{board[2]} "
+  puts '-----------'
+  puts " #{board[3]} | #{board[4]} | #{board[5]} "
+  puts '-----------'
+  puts " #{board[6]} | #{board[7]} | #{board[8]} "
 
-# idx = map_to_index(player_1_move)
+  puts "#{current_player} Pick a number"
+  player1_position = gets.strip.to_i
+  idx = map_to_index(player1_position)
 
-# puts board.update_board(idx, 'X')
-# if valid_move?(board, idx)
-#   board.update_board
-# else
-#   puts "It doesn't work."
-# end
+  if valid_move?(board, idx)
+    if current_player.eql?(player1)
+      p1_moves.push(idx)
+    else
+      p2_moves.push(idx)
+    end
+    symbol = if current_player.eql?(player1)
+               'X'
+             else
+               'O'
+             end
+    board = update_board(idx, board, symbol)
+    current_player = current_player = if current_player.eql?(player1)
+                                        player2
+                                      else
+                                        player1
+                                      end
+  else
+    puts 'Invalid move'
+  end
+end
