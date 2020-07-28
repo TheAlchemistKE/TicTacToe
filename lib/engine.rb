@@ -15,9 +15,13 @@ class GameEngine
         @current_player = @current_player == player1 ? player2 : player1
     end
 
-    def check_for_winner
+    def check_for_winner(arr)
         @wins.each do |moves|
-            @winner = @current_player if moves.all? {|idx| @board[idx] == @current_player.symbol}
+            if moves.eql?(arr)
+                true
+            else
+                false
+            # @winner = @current_player if moves.all? {|idx| @board[idx] == @current_player.symbol}
         end
     end 
 end
