@@ -14,48 +14,69 @@ def map_to_index(position)
   position - 1
 end
 
-def update_board(index, board, symbol)
+def update_board(index, board, symbol = '')
   board[index] = symbol
   board
 end
 
-count = 1
+def position_taken?(board, idx)
+  if board[idx] == 'X' || board[idx] == 'O'
+    true
+  else
+    false
+  end
+end
 
-while count <= 9
+def valid_move?(board, idx)
+  if idx.between?(0, 8) && !position_taken?(board, idx)
+    true
+  else
+    false
+  end
+end
+
+p1_moves = []
+p2_moves = []
+
+winner = nil
+# count = 1
+current_player = player1
+
+while winner.nil?
+
   puts " #{board[0]} | #{board[1]} | #{board[2]} "
   puts '-----------'
   puts " #{board[3]} | #{board[4]} | #{board[5]} "
   puts '-----------'
   puts " #{board[6]} | #{board[7]} | #{board[8]} "
 
-  p1_moves = []
-
-  puts "#{player1} Pick a number"
+  puts "#{current_player} Pick a number"
   player1_position = gets.strip.to_i
-
   idx = map_to_index(player1_position)
-  p1_moves << idx
-  board = update_board(idx, board, 'x')
 
-  system('clear')
-
-  puts " #{board[0]} | #{board[1]} | #{board[2]} "
-  puts '-----------'
-  puts " #{board[3]} | #{board[4]} | #{board[5]} "
-  puts '-----------'
-  puts " #{board[6]} | #{board[7]} | #{board[8]} "
-
-  puts "#{player2} Pick a number"
-
-  player2_position = gets.strip.to_i
-  p2_moves = []
-
-  idx = map_to_index(player2_position)
-  p2_moves << idx
-  board = update_board(idx, board, 'O')
-
+  if valid_move?(board, idx)
+    if current_player.eql?(player1)
+      p1_moves.push(idx)
+    else
+      p2_moves.push(idx)
+    end
+    symbol = if current_player.eql?(player1)
+               'X'
+             else
+               'O'
+             end
+    board = update_board(idx, board, symbol)
+    current_player = current_player = if current_player.eql?(player1)
+                                        player2
+                                      else
+                                        player1
+                                      end
+  else
+    puts 'Invalid move'
+  end
 end
 # def find_winner
+#  Not yet implented, will be implemented in the next milestone
 #   wins = [
 #     [0, 1, 2],
 #     [3, 4, 5],
