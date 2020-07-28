@@ -12,12 +12,12 @@ class GameEngine
         @winner = nil
     end
     def switch_turn
-        @current_player = @current_player == player1 ? player2 : player1
+        @current_player = @current_player.player_name == @player1.player_name ? @player2 : @player1
     end
 
     def check_for_winner
         @wins.each do |moves|
-            @winner = @current_player if moves.all? {|idx| @board[idx] == @current_player.symbol}
+            @winner = @current_player if moves.all? {|idx| @board[idx] == @current_player.player_symbol}
         end
     end 
 end

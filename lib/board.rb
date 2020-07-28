@@ -26,10 +26,10 @@ class GameBoard < GameEngine
     true
   end
 
-  def update_board(idx, symbol)
-    @board[idx] = symbol
-    check_for_winner
-    display_board
-    switch_turn
+  def update_board(position, symbol)
+    @board[position-1] = symbol
+    @board
+    check_for_winner()
+    switch_turn()
   end
 end
