@@ -18,7 +18,4 @@ def map_to_index(position)
   position - 1
 end
 
-def update_board(index, board, symbol)
-  board[index] = symbol
-  board
-end
+
