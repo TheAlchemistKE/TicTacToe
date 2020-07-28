@@ -1,2 +1,90 @@
 #!/usr/bin/env ruby
-puts 'Hello world!'
+puts 'Wellcome to TicTacToe'
+puts 'Player1 Name'
+player1 = gets.strip
+
+puts 'Player2 Name'
+player2 = gets.strip
+
+system('clear')
+
+board = (1..9).to_a
+
+def map_to_index(position)
+  position - 1
+end
+
+def update_board(index, board, symbol = '')
+  board[index] = symbol
+  board
+end
+
+def position_taken?(board, idx)
+  if board[idx] == 'X' || board[idx] == 'O'
+    true
+  else
+    false
+  end
+end
+
+def valid_move?(board, idx)
+  if idx.between?(0, 8) && !position_taken?(board, idx)
+    true
+  else
+    false
+  end
+end
+
+p1_moves = []
+p2_moves = []
+
+winner = nil
+# count = 1
+current_player = player1
+
+while winner.nil?
+
+  puts " #{board[0]} | #{board[1]} | #{board[2]} "
+  puts '-----------'
+  puts " #{board[3]} | #{board[4]} | #{board[5]} "
+  puts '-----------'
+  puts " #{board[6]} | #{board[7]} | #{board[8]} "
+
+  puts "#{current_player} Pick a number"
+  player1_position = gets.strip.to_i
+  idx = map_to_index(player1_position)
+
+  if valid_move?(board, idx)
+    if current_player.eql?(player1)
+      p1_moves.push(idx)
+    else
+      p2_moves.push(idx)
+    end
+    symbol = if current_player.eql?(player1)
+               'X'
+             else
+               'O'
+             end
+    board = update_board(idx, board, symbol)
+    current_player = current_player = if current_player.eql?(player1)
+                                        player2
+                                      else
+                                        player1
+                                      end
+  else
+    puts 'Invalid move'
+  end
+end
+# def find_winner
+#  Not yet implented, will be implemented in the next milestone
+#   wins = [
+#     [0, 1, 2],
+#     [3, 4, 5],
+#     [6, 7, 8],
+#     [0, 3, 6],
+#     [1, 4, 7],
+#     [2, 5, 8],
+#     [2, 4, 6],
+#     [0, 4, 8]
+#   ]
+# end
