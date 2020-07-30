@@ -9,6 +9,7 @@ player2_name = Player.new(gets.strip, 'O')
 board = GameBoard.new((1..9).to_a)
 winner = nil
 current_player = player2_name
+counter = 1
 while winner.nil?
   current_player = current_player = if current_player.eql?(player2_name)
                                       player1_name
@@ -28,9 +29,12 @@ while winner.nil?
       winner = player2_name
       puts "the winner is #{player2_name.player_name}"
     end
-  elsif board.board.all?.is_a?(String)
-    puts 'Its a draw'
-    break
+    counter += 1
+    puts "the counter #{counter}"
+    if counter > 9 && winner.nil?
+      puts 'Its a draw'
+      break
+    end
   else
     puts 'Invalid move'
   end
