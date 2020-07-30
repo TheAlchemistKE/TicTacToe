@@ -23,18 +23,18 @@ class GameBoard < GameEngine
   end
 
   def board_filled?(board)
-    moves = board.any? { |el| el.is_a?(Integer)}
-    if moves
-      moves = false
-    else
-      moves = true
-    end
+    moves = board.any? { |el| el.is_a?(Integer) }
+    moves = if moves
+              false
+            else
+              true
+            end
     moves
   end
 
   def update_board(position, symbol, player)
     @board[position - 1] = symbol
     winner = check_for_winner(player)
-    winner 
+    winner
   end
 end
