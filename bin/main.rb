@@ -2,105 +2,73 @@ require_relative '../lib/board'
 require_relative '../lib/players'
 require_relative '../lib/validate'
 
+puts 'Welcome To TicTacToe'
 
-puts "Welcome To TicTacToe"
-
-
-puts "Please enter your name:"
+puts 'Please enter your name:'
 player1_name = gets.strip
 
-puts "Please enter your name:"
+puts 'Please enter your name:'
 player2_name = gets.strip
 
+turn = 0
+winning_player = nil
 
 # Object Creation.
-player_one = Player.new(player1_name, "X")
-player_two = Player.new(player2_name, "O")
-game = GameBoard.new(player_one, player_one)
+player_one = Player.new(player1_name, 'X')
+player_two = Player.new(player2_name, 'O')
+game = GameBoard.new
 
-turn = 1
+def switch_turn(turn, player1, player2, game)
+  current_player = nil
+  winner = nil
+  if turn.even?
+    current_player = player1
+    puts "#{current_player.player_name} make your move."
+    player_move = gets.strip.to_i
+    if valid_move?(game.board, player_move) && !game.board_filled?(game.board)
+      winner = game.update_board(player_move, current_player.player_symbol, current_player)
+    else
+      puts 'Invalid move.'
+      current_player = player1
+      puts "#{current_player.player_name} make your move."
+      player_move = gets.strip.to_i
+      winner = game.update_board(player_move, current_player.player_symbol, current_player)
+    end
+  else
+    current_player = player2
+    puts "#{current_player.player_name} make your move."
+    player_move = gets.strip.to_i
+    if valid_move?(game.board, player_move) && !game.board_filled?(game.board)
+      winner = game.update_board(player_move, current_player.player_symbol, current_player)
+    else
+      puts 'Invalid Move.'
+      current_player = player2
+      puts "#{current_player.player_name} make your move."
+      player_move = gets.strip.to_i
+      winner = game.update_board(player_move, current_player.player_symbol, current_player)
+    end
+  end
+  winner
+end
 
 puts game.display_board
 while turn <= 9
-  puts "#{game.current_player.player_name} make your move"
-  player_move = gets.strip.to_i
-  puts game.update_board(player_move, game.current_player.player_symbol)
+  begin
+    winner = switch_turn(turn, player_one, player_two, game)
+  rescue NoMethodError
+    puts "It's a draw guys."
+    break
+  end
+
+  puts game.display_board
+
+  if winner
+    winning_player = winner
+    break
+  end
+  game.display_board
+
+  turn += 1
 end
 
-
-
-
-
-# puts 'Wellcome to TicTacToe'
-
-# puts 'Player1 Name'
-# player1_name = gets.strip
-
-# puts 'Player2 Name'
-# player2_name = gets.strip
-
-# def map_to_index(position)
-#   position - 1
-# end
-
-# def update_board(index, board, symbol = '')
-#   board[index] = symbol
-#   board
-# end
-
-# def position_taken?(board, idx)
-#   if board[idx] == 'X' || board[idx] == 'O'
-#     true
-#   else
-#     false
-#   end
-# end
-
-# def valid_move?(board, idx)
-#   if idx.between?(0, 8) && !position_taken?(board, idx)
-#     true
-#   else
-#     false
-#   end
-# end
-
-# p1_moves = []
-# p2_moves = []
-
-# winner = nil
-# # count = 1
-# current_player = player1
-
-# while winner.nil?
-
-#   puts " #{board[0]} | #{board[1]} | #{board[2]} "
-#   puts '-----------'
-#   puts " #{board[3]} | #{board[4]} | #{board[5]} "
-#   puts '-----------'
-#   puts " #{board[6]} | #{board[7]} | #{board[8]} "
-
-#   puts "#{current_player} Pick a number"
-#   player1_position = gets.strip.to_i
-#   idx = map_to_index(player1_position)
-
-#   if valid_move?(board, idx)
-#     if current_player.eql?(player1)
-#       p1_moves.push(idx)
-#     else
-#       p2_moves.push(idx)
-#     end
-#     symbol = if current_player.eql?(player1)
-#                'X'
-#              else
-#                'O'
-#              end
-#     board = update_board(idx, board, symbol)
-#     current_player = current_player = if current_player.eql?(player1)
-#                                         player2
-#                                       else
-#                                         player1
-#                                       end
-#   else
-#     puts 'Invalid move'
-#   end
-# end
+puts "#{winning_player.player_name} is the winner."

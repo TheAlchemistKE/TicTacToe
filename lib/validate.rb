@@ -6,7 +6,8 @@ def position_taken?(board, idx)
   end
 end
 
-def valid_move?(board, idx)
+def valid_move?(board, position)
+  idx = position - 1
   if idx.between?(0, 8) && !position_taken?(board, idx)
     true
   else
@@ -17,5 +18,3 @@ end
 def map_to_index(position)
   position - 1
 end
-
-
