@@ -14,10 +14,6 @@ class GameBoard < GameEngine
         #{@board[6]} | #{@board[7]} | #{@board[8]} "
   end
 
-  def switch_turn(turn)
-    super
-  end
-
   def check_for_winner(player)
     super
   end
