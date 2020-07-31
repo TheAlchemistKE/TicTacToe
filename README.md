@@ -61,12 +61,12 @@ If you have followed the instructions above then to run do the following to have
 - Twitter: [@KelynNjeri](https://twitter.com/KelynNjeri)
 - Linkedin: [Kelyn Njeri](https://linkedin.com/kelyn-paul)
 
-👤 **Author2**
+👤 **Juan Jacobo Hincapie Montes**
 
-- Github: [@githubhandle](https://github.com/githubhandle)
-- Twitter: [@twitterhandle](https://twitter.com/twitterhandle)
-- Linkedin: [linkedin](https://linkedin.com/linkedinhandle)
-
+- Gmail: [@gmail](jacobo12.montes@gmail.com)
+- Github: [@githubhandle](https://github.com/jacobo12montes)
+- Twitter: [@twitterhandle](https://twitter.com/HincapieMontes)
+- Linkedin: [linkedin](https://www.linkedin.com/in/juan-jacobo-hincapi%C3%A9-montes-93975210b/)
 ## 🤝 Contributing
 
 Contributions, issues and feature requests are welcome!
