@@ -30,10 +30,10 @@ while winner.nil?
       break
     end
     current_player = if current_player.eql?(player1_name)
-      player2_name
-    else
-      player1_name
-    end
+                       player2_name
+                     else
+                       player1_name
+                     end
   else
     puts 'Invalid move'
   end
