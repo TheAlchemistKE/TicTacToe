@@ -42,6 +42,18 @@ def prompt_input(current_player)
   player_move
 end
 
+def invalid_move(game, move_made, player)
+  until game.valid_move?(game.board, move_made)
+    puts 'Invalid Move. Try again.'.upcase.colorize(:red)
+    puts game.display_board
+    repeat_move = prompt_input(player)
+    if game.valid_move?(game.board, repeat_move)
+      game.update_board(repeat_move, player.player_symbol)
+      break
+    end
+  end
+end
+
 def switch_turn(turn, player1, player2)
   current_player = if turn.even?
                      player1
@@ -63,15 +75,7 @@ while turn <= 8
     game.update_board(move_made, player.player_symbol)
     winner = game.check_for_winner(player)
   else
-    until game.valid_move?(game.board, move_made)
-      puts 'Invalid Move. Try again.'.upcase.colorize(:red)
-      puts game.display_board
-      repeat_move = prompt_input(player)
-      if game.valid_move?(game.board, repeat_move)
-        game.update_board(repeat_move, player.player_symbol)
-        break
-      end
-    end
+    invalid_move(game, move_made, player)
   end
   puts game.display_board
 
