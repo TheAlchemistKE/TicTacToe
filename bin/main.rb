@@ -1,103 +1,76 @@
-# require_relative '../lib/board'
-# require_relative '../lib/players'
-# require_relative '../lib/validate'
+#!/usr/bin/env ruby
+require_relative '../lib/board'
+require_relative '../lib/players'
+require_relative '../lib/helper'
+require 'colorize'
+require 'tty-font'
+require 'tty-prompt'
 
-puts 'Wellcome to TicTacToe'
+font = TTY::Font.new(:standard)
+puts font.write('TicTacToe')
 
-puts 'Player1 Name'
-player1_name = gets.strip
+puts 'Welcome To TicTacToe'.upcase.colorize(:cyan)
+puts
+puts 'To play the game, follow instructions below.'
+puts '---------------------------------------'
+puts '|------------INSTRUCTIONS----------------|'
+puts '1. Both players should enter their names.'
+puts '2. A TicToe board will presented to you with numbers 1 through 9.'
+puts "3. Enter numbers 1 through 9 that corresponds to the position on the board that you'd like to occupy."
+puts
+puts 'May the force be with you.'.upcase.colorize(:magenta)
+puts
 
-puts 'Player2 Name'
-player2_name = gets.strip
+prompt = TTY::Prompt.new
 
-def map_to_index(position)
-  position - 1
+player1_name = prompt.ask("Player 1, What's your name?")
+player2_name = prompt.ask("Player 2, What's your name?")
+
+system('clear')
+
+turn = 0
+
+# Object Creation.
+player_one = Player.new(player1_name, 'X')
+player_two = Player.new(player2_name, 'O')
+game = GameBoard.new
+
+def prompt_input(current_player)
+  puts "#{current_player.player_name} make your move.".colorize(:green)
+  player_move = gets.strip.to_i
+  player_move
 end
 
-def update_board(index, board, symbol = '')
-  board[index] = symbol
-  board
-end
-
-def position_taken?(board, idx)
-  if board[idx] == 'X' || board[idx] == 'O'
-    true
+def check_winner_update_board(_board, player_move, current_player, game)
+  if valid_move?(game.board, player_move)
+    game.update_board(player_move, current_player.player_symbol, current_player)
   else
-    false
+    puts 'Invalid Move.'.colorize(:red)
+    invalid_move_prompt(current_player, game)
   end
 end
 
-def valid_move?(board, idx)
-  if idx.between?(0, 8) && !position_taken?(board, idx)
-    true
-  else
-    false
+def switch_turn(turn, player1, player2, game)
+  winner = if turn.even?
+             check_winner_update_board(game.board, prompt_input(player1), player1, game)
+           else
+             check_winner_update_board(game.board, prompt_input(player2), player2, game)
+           end
+  winner
+end
+
+puts game.display_board
+while turn <= 8
+  winner = switch_turn(turn, player_one, player_two, game)
+  system('clear')
+  puts game.display_board
+
+  if winner
+    puts "#{winner.player_name} is the winner."
+    break
+  elsif game.board_filled?(game.board)
+    puts "It's a draw guys."
+    break
   end
+  turn += 1
 end
-
-def winner?(arr)
-  wins = [
-    [0, 1, 2], [3, 4, 5], [6, 7, 8], #Horizontal Winnings
-    [0, 3, 6], [1, 4, 7], [2, 5, 8], #Vertical Winnings
-    [2, 4, 6], [0, 4, 8] #Diagonal winnings.
-  ]
-  state = nil
-  wins.each do |move_combo|
-    if move_combo == arr
-      state = true
-    else
-      state = false
-    end
-  end
-  state
-end
-p1_moves = [0, 1, 2]
-p2_moves = []
-
-if winner?(p1_moves)
-  puts "Congratulations #{player1_name}, you won."
-  puts "Sorry #{player2_name}, better luck next time."
-elsif winner?(p2_moves)
-  puts "Congratulations #{player2_name}, you won."
-  puts "Sorry #{player1_name}, better luck next time."
-end
-
-
-
-# winner = nil
-# # count = 1
-# current_player = player1
-
-# while winner.nil?
-
-#   puts " #{board[0]} | #{board[1]} | #{board[2]} "
-#   puts '-----------'
-#   puts " #{board[3]} | #{board[4]} | #{board[5]} "
-#   puts '-----------'
-#   puts " #{board[6]} | #{board[7]} | #{board[8]} "
-
-#   puts "#{current_player} Pick a number"
-#   player1_position = gets.strip.to_i
-#   idx = map_to_index(player1_position)
-
-#   if valid_move?(board, idx)
-#     if current_player.eql?(player1)
-#       p1_moves.push(idx)
-#     else
-#       p2_moves.push(idx)
-#     end
-#     symbol = if current_player.eql?(player1)
-#                'X'
-#              else
-#                'O'
-#              end
-#     board = update_board(idx, board, symbol)
-#     current_player = current_player = if current_player.eql?(player1)
-#                                         player2
-#                                       else
-#                                         player1
-#                                       end
-#   else
-#     puts 'Invalid move'
-#   end
-# end

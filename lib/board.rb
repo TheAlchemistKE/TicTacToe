@@ -1,6 +1,7 @@
 require_relative './engine.rb'
 class GameBoard < GameEngine
-  def initialize(player1, player2)
+  attr_reader :board
+  def initialize
     super
     @board = (1..9).to_a
   end
@@ -13,23 +14,23 @@ class GameBoard < GameEngine
         #{@board[6]} | #{@board[7]} | #{@board[8]} "
   end
 
-  def switch_turn
+  def check_for_winner(player)
     super
   end
 
-  def check_for_winner
-    super
+  def board_filled?(board)
+    moves = board.any? { |el| el.is_a?(Integer) }
+    moves = if moves
+              false
+            else
+              true
+            end
+    moves
   end
 
-  def board_filled?
-    false until @winner || @board.none? {|el| el.is_a? (Integer)}
-    true
-  end
-
-  def update_board(idx, symbol)
-    @board[idx] = symbol
-    check_for_winner
-    display_board
-    switch_turn
+  def update_board(position, symbol, player)
+    @board[position - 1] = symbol
+    winner = check_for_winner(player)
+    winner
   end
 end
