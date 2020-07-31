@@ -15,14 +15,7 @@ def valid_move?(board, position)
   end
 end
 
-def prompt_input(current_player)
-  puts "#{current_player.player_name} make your move."
-  player_move = gets.strip.to_i
-  player_move
-end
-
-def invalid_move_prompt(current_player)
-  puts 'Invalid Move.'
-  winner = $game.update_board(prompt_input(current_player), current_player.player_symbol, current_player)
+def invalid_move_prompt(current_player, game)
+  winner = game.update_board(prompt_input(current_player), current_player.player_symbol, current_player)
   winner
 end

@@ -2,49 +2,70 @@
 require_relative '../lib/board'
 require_relative '../lib/players'
 require_relative '../lib/helper'
+require 'colorize'
+require 'tty-font'
+require 'tty-prompt'
 
-puts 'Welcome To TicTacToe'
+puts 'Welcome To TicTacToe'.colorize(:cyan)
+puts
+puts 'To play the game, follow instructions below.'
+puts '---------------------------------------'
+puts '|------------INSTRUCTIONS----------------|'
+puts '1. Both players should enter their names.'
+puts '2. A TicToe board will presented to you with numbers 1 through 9.'
+puts "3. Enter numbers 1 through 9 that corresponds to the position on the board that you'd like to occupy."
+puts
+puts 'May the force be with you.'.colorize(:magenta)
+puts
 
-puts 'Please enter your name:'
-player1_name = gets.strip
+prompt = TTY::Prompt.new
 
-puts 'Please enter your name:'
-player2_name = gets.strip
+player1_name = prompt.ask("Player 1, What's your name?")
+player2_name = prompt.ask("Player 2, What's your name?")
+
+system("clear")
 
 turn = 0
 
 # Object Creation.
 player_one = Player.new(player1_name, 'X')
 player_two = Player.new(player2_name, 'O')
-$game = GameBoard.new
+game = GameBoard.new
 
-def return_winner(_board, player_move, current_player)
-  if valid_move?($game.board, player_move)
-    $game.update_board(player_move, current_player.player_symbol, current_player)
+def prompt_input(current_player)
+  puts "#{current_player.player_name} make your move.".colorize(:green)
+  player_move = gets.strip.to_i
+  player_move
+end
+
+def check_winner_update_board(_board, player_move, current_player, game)
+  if valid_move?(game.board, player_move)
+    game.update_board(player_move, current_player.player_symbol, current_player)
   else
-    invalid_move_prompt(current_player)
+    puts 'Invalid Move.'.colorize(:red)
+    invalid_move_prompt(current_player, game)
   end
 end
 
-def switch_turn(turn, player1, player2)
+def switch_turn(turn, player1, player2, game)
   winner = if turn.even?
-             return_winner($game.board, prompt_input(player1), player1)
+             check_winner_update_board(game.board, prompt_input(player1), player1, game)
            else
-             return_winner($game.board, prompt_input(player2), player2)
+             check_winner_update_board(game.board, prompt_input(player2), player2, game)
            end
   winner
 end
 
-puts $game.display_board
+puts game.display_board
 while turn <= 8
-  winner = switch_turn(turn, player_one, player_two)
+  winner = switch_turn(turn, player_one, player_two, game)
   system('clear')
-  puts $game.display_board
+  puts game.display_board
 
   if winner
     puts "#{winner.player_name} is the winner."
     break
-  elsif $game.board_filled?($game.board)
+  elsif game.board_filled?(game.board)
     puts "It's a draw guys."
     break
   end
