@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
+# Metrics/BlockNesting
 require_relative '../lib/board'
 require_relative '../lib/players'
-require_relative '../lib/helper'
 require 'colorize'
 require 'tty-font'
 require 'tty-prompt'
@@ -29,6 +29,7 @@ player2_name = prompt.ask("Player 2, What's your name?")
 system('clear')
 
 turn = 0
+player = nil
 
 # Object Creation.
 player_one = Player.new(player1_name, 'X')
@@ -41,28 +42,37 @@ def prompt_input(current_player)
   player_move
 end
 
-def check_winner_update_board(_board, player_move, current_player, game)
-  if valid_move?(game.board, player_move)
-    game.update_board(player_move, current_player.player_symbol, current_player)
-  else
-    puts 'Invalid Move.'.colorize(:red)
-    invalid_move_prompt(current_player, game)
-  end
-end
-
-def switch_turn(turn, player1, player2, game)
-  winner = if turn.even?
-             check_winner_update_board(game.board, prompt_input(player1), player1, game)
-           else
-             check_winner_update_board(game.board, prompt_input(player2), player2, game)
-           end
-  winner
+def switch_turn(turn, player1, player2)
+  current_player = if turn.even?
+                     player1
+                   else
+                     player2
+                   end
+  current_player
 end
 
 puts game.display_board
 while turn <= 8
-  winner = switch_turn(turn, player_one, player_two, game)
+  player = switch_turn(turn, player_one, player_two)
+  move_made = prompt_input(player)
+  winner = nil
+
   system('clear')
+
+  if game.valid_move?(game.board, move_made)
+    game.update_board(move_made, player.player_symbol)
+    winner = game.check_for_winner(player)
+  else
+    until game.valid_move?(game.board, move_made)
+      puts 'Invalid Move. Try again.'.upcase.colorize(:red)
+      puts game.display_board
+      repeat_move = prompt_input(player)
+      if game.valid_move?(game.board, repeat_move)
+        game.update_board(repeat_move, player.player_symbol)
+        break
+      end
+    end
+  end
   puts game.display_board
 
   if winner

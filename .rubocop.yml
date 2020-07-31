@@ -11,6 +11,8 @@ GlobalVars:
 
 Layout/LineLength:
   Max: 120
+Metrics/BlockNesting:
+  Enabled: false
 Metrics/MethodLength:
   Max: 20
 Metrics/AbcSize:
