@@ -8,14 +8,9 @@ puts 'Player2 enter your name'
 player2_name = Player.new(gets.strip, 'O')
 board = GameBoard.new((1..9).to_a)
 winner = nil
-current_player = player2_name
+current_player = player1_name
 counter = 1
 while winner.nil?
-  current_player = current_player = if current_player.eql?(player2_name)
-                                      player1_name
-                                    else
-                                      player2_name
-                                    end
   puts board.display_board
   puts "#{current_player.player_name} Pick a number"
   idx = gets.strip.to_i - 1
@@ -30,10 +25,14 @@ while winner.nil?
       puts "the winner is #{player2_name.player_name}"
     end
     counter += 1
-    puts "the counter #{counter}"
     if counter > 9 && winner.nil?
       puts 'Its a draw'
       break
+    end
+    current_player = if current_player.eql?(player1_name)
+      player2_name
+    else
+      player1_name
     end
   else
     puts 'Invalid move'
