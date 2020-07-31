@@ -7,7 +7,7 @@ require 'tty-font'
 require 'tty-prompt'
 
 font = TTY::Font.new(:standard)
-puts font.write("TicTacToe")
+puts font.write('TicTacToe')
 
 puts 'Welcome To TicTacToe'.upcase.colorize(:cyan)
 puts
@@ -26,7 +26,7 @@ prompt = TTY::Prompt.new
 player1_name = prompt.ask("Player 1, What's your name?")
 player2_name = prompt.ask("Player 2, What's your name?")
 
-system("clear")
+system('clear')
 
 turn = 0
 
