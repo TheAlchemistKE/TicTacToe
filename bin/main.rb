@@ -6,7 +6,10 @@ require 'colorize'
 require 'tty-font'
 require 'tty-prompt'
 
-puts 'Welcome To TicTacToe'.colorize(:cyan)
+font = TTY::Font.new(:standard)
+puts font.write("TicTacToe")
+
+puts 'Welcome To TicTacToe'.upcase.colorize(:cyan)
 puts
 puts 'To play the game, follow instructions below.'
 puts '---------------------------------------'
@@ -15,7 +18,7 @@ puts '1. Both players should enter their names.'
 puts '2. A TicToe board will presented to you with numbers 1 through 9.'
 puts "3. Enter numbers 1 through 9 that corresponds to the position on the board that you'd like to occupy."
 puts
-puts 'May the force be with you.'.colorize(:magenta)
+puts 'May the force be with you.'.upcase.colorize(:magenta)
 puts
 
 prompt = TTY::Prompt.new
