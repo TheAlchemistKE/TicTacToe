@@ -26,22 +26,18 @@ def return_winner(_board, player_move, current_player)
 end
 
 def switch_turn(turn, player1, player2)
-  current_player = nil
-  winner = nil
-  if turn.even?
-    current_player = player1
-    winner = return_winner($game.board, prompt_input(current_player), current_player)
-  else
-    current_player = player2
-    winner = return_winner($game.board, prompt_input(current_player), current_player)
-  end
+  winner = if turn.even?
+             return_winner($game.board, prompt_input(player1), player1)
+           else
+             return_winner($game.board, prompt_input(player2), player2)
+           end
   winner
 end
 
 puts $game.display_board
 while turn <= 8
   winner = switch_turn(turn, player_one, player_two)
-  puts turn
+  system('clear')
   puts $game.display_board
 
   if winner

@@ -23,7 +23,6 @@ end
 
 def invalid_move_prompt(current_player)
   puts 'Invalid Move.'
-  move = prompt_input(current_player)
-  winner = game.update_board(player_move, current_player.player_symbol, current_player)
+  winner = $game.update_board(prompt_input(current_player), current_player.player_symbol, current_player)
   winner
 end

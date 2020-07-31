@@ -5,6 +5,10 @@ AllCops:
 
   DisplayCopNames: true
 
+GlobalVars:
+  AllowedVariables:
+    - $game
+
 Layout/LineLength:
   Max: 120
 Metrics/MethodLength:
